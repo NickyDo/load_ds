@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory name="">
+		<property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
+
+
+
+
+
+
+		<!-- Local -->
+		 <property name="hibernate.connection.url">jdbc:oracle:thin:@192.168.220.215:1521/AMLDB</property> 
+			<property name="hibernate.connection.username">EMBBLTZ</property> <property 
+			name="hibernate.default_schema">EMBLALA</property> <property name="hibernate.connection.password">siron</property>
+
+		<!-- UAT -->
+	 
+		<!-- <property name="hibernate.connection.url">jdbc:oracle:thin:@10.53.252.183:1521/EMBDB</property>
+		<property name="hibernate.connection.username">EMBVNVX</property>
+
+		<property name="hibernate.default_schema">EMBVNVX</property>
+
+		<property name="hibernate.connection.password">siron</property> 
+  -->
+		<property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+		<property name="hibernate.c3p0.acquire_increment">1</property>
+		<property name="hibernate.c3p0.idle_test_period">100</property>
+		<property name="hibernate.c3p0.max_size">20</property>
+		<property name="hibernate.c3p0.max_statements">50</property>
+		<property name="hibernate.c3p0.min_size">10</property>
+		<property name="hibernate.c3p0.timeout">100</property>
+		<property name="hibernate.connection.autoReconnect">true</property>
+		<property name="hibernate.c3p0.testConnectionOnCheckout">true</property>
+		<!-- <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property> -->
+		<property name="hibernate.current_session_context_class">thread</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+
+		<mapping class="org.o7planning.load_ds_wl.entity.FileEntity" />
+
+
+
+
+
+
+
+
+
+	</session-factory>
+</hibernate-configuration>

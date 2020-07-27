@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.multipart.maxSize" value="20971520" /> <!-- 20MB -->
+
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
+
+	<package name="default" namespace="/"
+		extends="struts-default, json-default">
+		<action name="login" class="org.o7planning.load_ds_wl.action.LoginAction">
+			<result name="success" type="redirect">/dashboard</result>
+			<result name="error">WEB-INF/pages/Login.jsp</result>
+		</action>
+
+		<action name="dashboard" class="org.o7planning.load_ds_wl.action.UpDownAction"
+			method="execute">
+			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
+		</action>
+
+		<action name="uploadFile" class="org.o7planning.load_ds_wl.action.JSONDataAction">
+
+			<param name="saveDirectory">D:/Test/Upload</param>
+
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">*/*</param>
+				<param name="maximumSize">4194304</param> <!-- 4MB -->
+			</interceptor-ref>
+
+			<interceptor-ref name="staticParams" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
+			<!-- <result name="">WEB-INF/pages/Dashboard.jsp</result> -->
+			<result name="success" type="chain">
+				<param name="actionName">emailer</param>
+				<param name="to">${to}</param>
+			</result>
+
+			<result type="json"></result>
+		</action>
+
+		<action name="getDataAction" class="org.o7planning.load_ds_wl.action.FileDataAction"
+			method="search">
+			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
+			<result name="error">WEB-INF/pages/Login.jsp</result>
+		</action>
+		<action name="downloadFile"
+			class="org.o7planning.load_ds_wl.action.DownloadFileAction">
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">fileInputStream</param>
+				                
+				<param name="contentDisposition">attachment;filename="download.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+
+		<action name="confirm" class="org.o7planning.load_ds_wl.action.UpDownAction"
+			method="executeShFile">
+			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
+			<result name="error">WEB-INF/pages/Login.jsp</result>
+
+		</action>
+
+		<action name="reject"
+			class="org.o7planning.load_ds_wl.action.DeleteFileAction" method="execute">
+			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
+			<result name="error">WEB-INF/pages/Login.jsp</result>
+
+		</action>
+		<action name="convertToCsv" class="org.o7planning.load_ds_wl.action.ExcelReading"
+			method="convert">
+			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
+		</action>
+
+		<action name="emailer" class="org.o7planning.load_ds_wl.action.EmailAction"
+			method="execute">
+			<result type="json"></result>
+
+		</action>
+	</package>
+
+</struts>
