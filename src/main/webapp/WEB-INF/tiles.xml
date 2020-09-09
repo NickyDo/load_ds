@@ -8,5 +8,5 @@
 	<definition name="Dashboard" extends="success">
 		<put-attribute name="body" value="/pages/Dashboard.jsp" />
 	</definition>
-
+	
 </tiles-definitions>

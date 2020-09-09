@@ -18,4 +18,8 @@ public class UserService {
 	public List<UserEntity> getAllType(){
 		return userDao.getAllData();
 	}
+	
+	public List<UserEntity> getChecker(){
+		return userDao.getChecker();
+	}
 }

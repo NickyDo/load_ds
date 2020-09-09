@@ -19,6 +19,15 @@ public class UserEntity implements Serializable{
 
 	private String userName;
 	private String password;
+	private String typeUser;
+
+	public String getTypeUser() {
+		return typeUser;
+	}
+
+	public void setTypeUser(String typeUser) {
+		this.typeUser = typeUser;
+	}
 
 	public String getPassword() {
 		return password;

@@ -11,19 +11,19 @@
 
 
 		<!-- Local -->
-		 <property name="hibernate.connection.url">jdbc:oracle:thin:@192.168.220.215:1521/AMLDB</property> 
-			<property name="hibernate.connection.username">EMBBLTZ</property> <property 
-			name="hibernate.default_schema">EMBLALA</property> <property name="hibernate.connection.password">siron</property>
+	<!-- <property name="hibernate.connection.url">jdbc:oracle:thin:@192.168.220.222:1521/AMLDB</property> 
+		<property name="hibernate.connection.username">EMBBLTZ</property> <property 
+		name="hibernate.default_schema">EMBLALA</property> <property name="hibernate.connection.password">siron</property> --> 
+		<!-- UAT -->
+	<property name="hibernate.connection.url">jdbc:oracle:thin:@10.40.64.52:1521/AML</property> 
+		<property name="hibernate.connection.username">AMLDB</property> <property 
+		name="hibernate.default_schema">AMLDB</property> <property name="hibernate.connection.password">siron</property> 
 
 		<!-- UAT -->
-	 
-		<!-- <property name="hibernate.connection.url">jdbc:oracle:thin:@10.53.252.183:1521/EMBDB</property>
-		<property name="hibernate.connection.username">EMBVNVX</property>
 
-		<property name="hibernate.default_schema">EMBVNVX</property>
-
-		<property name="hibernate.connection.password">siron</property> 
-  -->
+		<!-- <property name="hibernate.connection.url">jdbc:oracle:thin:@10.53.252.183:1521/EMBDB</property> 
+			<property name="hibernate.connection.username">EMBVNVX</property> <property 
+			name="hibernate.default_schema">EMBVNVX</property> <property name="hibernate.connection.password">siron</property> -->
 		<property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
 		<property name="hibernate.c3p0.acquire_increment">1</property>
 		<property name="hibernate.c3p0.idle_test_period">100</property>

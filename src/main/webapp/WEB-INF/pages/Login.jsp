@@ -4,7 +4,7 @@
 <head>
 <title>Struts 2 - Login Application</title>
 <link rel='stylesheet prefetch'
-	href='http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
+	href='css/bootstrap.min.css'>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -13,7 +13,7 @@
 <body>
 	<s:actionerror />
 	<div class="wrapper">
-		<form class="form-signin" action="login" method="post">
+		<form class="form-signin" action="loginAction" method="post">
 			<h2 class="form-signin-heading" style="text-align: center;">Đăng
 				nhập</h2>
 			<div class="imgcontainer">
@@ -22,14 +22,27 @@
 					style="margin-left: auto; margin-right: auto; display: block;">
 			</div>
 
+
+			<%-- <div style="padding: 10px; text-align: center;">
+				<select name="role" class="form-control" placeholder="Role"
+					required="" autofocus="">
+					<option value="maker">maker</option>
+					<option value="checker">checker</option>
+
+				</select>
+
+			</div>
+ --%>
+
 			<div style="padding: 10px; text-align: center;">
-				<input type="text" class="form-control" name="username"
+				<input type="text" class="form-control" name="userName"
 					placeholder="Tên đăng nhập" required="" autofocus="" />
 			</div>
 			<div style="padding: 10px; text-align: center;">
 				<input type="password" class="form-control" name="password"
 					placeholder="Mật khẩu" required="" />
 			</div>
+
 			<div style="padding: 10px; text-align: center;">
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
 			</div>
@@ -40,7 +53,6 @@
 	</div>
 
 
-	<br> Username: admin, password: admin123
 
 </body>
 </html>

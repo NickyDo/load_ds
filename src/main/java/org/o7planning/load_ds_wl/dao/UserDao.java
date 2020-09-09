@@ -17,11 +17,27 @@ public class UserDao extends BaseDao {
 	@SuppressWarnings("unchecked")
 	public List<UserEntity> getAllData() {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select DISTINCT LOGINNAME as userName, KENNWORT_LANG AS password, ERFDATTIME  FROM"
-				+ "GWGBENUT where   ERFDATTIME in  (select MAX(ERFDATTIME)   from" + "GWGBENUT GROUP BY LOGINNAME)");
+		sql.append(
+				"select DISTINCT BENUTZERNAME as userName, KENNWORT_LANG AS password, ERFDATTIME, BENUTZERTYP as typeUser FROM"
+						+ " GWGBENUT where   ERFDATTIME in  (select MAX(ERFDATTIME)   from "
+						+ " GWGBENUT GROUP BY BENUTZERNAME)");
 
 		List<UserEntity> listBranch = session.createSQLQuery(sql.toString()).addScalar("userName", Hibernate.STRING)
-				.addScalar("password", Hibernate.STRING)
+				.addScalar("password", Hibernate.STRING).addScalar("typeUser", Hibernate.STRING)
+				.setResultTransformer(Transformers.aliasToBean(UserEntity.class)).list();
+		return listBranch;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<UserEntity> getChecker() {
+		StringBuilder sql = new StringBuilder();
+		sql.append(
+				"select DISTINCT BENUTZERNAME as userName, KENNWORT_LANG AS password, ERFDATTIME, BENUTZERTYP as typeUser FROM"
+						+ " GWGBENUT where   ERFDATTIME in  (select MAX(ERFDATTIME)   from "
+						+ " GWGBENUT GROUP BY BENUTZERNAME) and BENUTZERTYP = '4'");
+
+		List<UserEntity> listBranch = session.createSQLQuery(sql.toString()).addScalar("userName", Hibernate.STRING)
+				.addScalar("password", Hibernate.STRING).addScalar("typeUser", Hibernate.STRING)
 				.setResultTransformer(Transformers.aliasToBean(UserEntity.class)).list();
 		return listBranch;
 	}

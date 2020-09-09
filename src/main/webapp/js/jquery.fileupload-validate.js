@@ -71,6 +71,7 @@
 
     processActions: {
       validate: function (data, options) {
+    	  console.log("file", file)
         if (options.disabled) {
           return data;
         }

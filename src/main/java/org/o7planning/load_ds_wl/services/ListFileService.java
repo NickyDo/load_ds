@@ -13,12 +13,31 @@ public class ListFileService {
 		listFileDao = new ListFileDao(session);
 	}
 
-	public List<FileEntity> getAllData() {
-		return listFileDao.getAllData();
+	public List<FileEntity> getAllData(String type) {
+		return listFileDao.getAllData(type);
 	}
 
-	public String insertData(String name, String dir, String typefile, String deletetype, String size,
-			String thumbnailurl, String deleteurl, String full) {
-		return listFileDao.insertData(name, dir, typefile, deletetype, size, thumbnailurl, deleteurl, full);
+	public String insertData(String name, String dir, String status, String dateUpload, String userUpload,
+			String userApprove, String commentFile, String full, String mailTo) {
+		return listFileDao.insertData(name, dir, status, dateUpload, userUpload, userApprove, commentFile, full,
+				mailTo);
+	}
+
+	public String updateData(String name, String dir, String status, String dateUpload, String userUpload,
+			String userApprove, String commentFile, String full, String mailTo) {
+		return listFileDao.updateData(name, dir, status, dateUpload, userUpload, userApprove, commentFile, full,
+				mailTo);
+	}
+
+	public String updateDataToChecker(String name, String status, String dateUpload) {
+		return listFileDao.updateDataToChecker(name, status, dateUpload);
+	}
+
+	public String updateDeleteData(String name, String commentFile, String status, String userApprove) {
+		return listFileDao.updateDeleteData(name, commentFile, status, userApprove);
+	}
+
+	public String deleteData(String id) {
+		return listFileDao.deleteData(id);
 	}
 }

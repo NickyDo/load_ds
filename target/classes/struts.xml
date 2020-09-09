@@ -5,41 +5,79 @@
 
 <struts>
 	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
-	<constant name="struts.multipart.maxSize" value="20971520" /> <!-- 20MB -->
+	<constant name="struts.multipart.maxSize" value="41669430040" /> <!-- 20MB -->
 
 	<constant name="struts.devMode" value="true" />
 	<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
 
 	<package name="default" namespace="/"
 		extends="struts-default, json-default">
-		<action name="login" class="org.o7planning.load_ds_wl.action.LoginAction">
-			<result name="success" type="redirect">/dashboard</result>
-			<result name="error">WEB-INF/pages/Login.jsp</result>
+
+
+		<action name="loginAction"
+			class="org.o7planning.load_ds_wl.action.BlitzAuthencation" method="loginExtern">
+			<result name="LoginSuccess" type="redirectAction">
+				<param name="actionName">dashboardAction</param>
+			</result>
+			<result name="LoginErr">WEB-INF/pages/Login.jsp</result>
 		</action>
 
-		<action name="dashboard" class="org.o7planning.load_ds_wl.action.UpDownAction"
-			method="execute">
+		<!-- <action name="loginAction" class="org.o7planning.load_ds_wl.action.LoadWatchListAction" 
+			method="createSpeSheet"> <result name="success">WEB-INF/pages/Dashboard.jsp</result> 
+			<result name="error">WEB-INF/pages/Login.jsp</result> </action> -->
+
+		<action name="dashboard"
+			class="org.o7planning.load_ds_wl.action.LoadWatchListAction" method="execute">
 			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
+			<result name="logout">WEB-INF/pages/Login.jsp</result>
+
+		</action>
+
+		<action name="dashboardAction" class="org.o7planning.load_ds_wl.action.DashboardAction"
+			method="dashboardDetail">
+			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
+			<result name="logout">WEB-INF/pages/Login.jsp</result>
+		</action>
+
+		<action name="logout" method="logout"
+			class="org.o7planning.load_ds_wl.action.DashboardAction">
+			<result name="logout">WEB-INF/pages/Login.jsp</result>
 		</action>
 
 		<action name="uploadFile" class="org.o7planning.load_ds_wl.action.JSONDataAction">
 
-			<param name="saveDirectory">D:/Test/Upload</param>
-
+			<param name="saveDirectory">/app/setup/tonbeller/sironKYC/client/0001/data/input</param>
+			<!-- <param name="saveDirectory">/app/setup/tonbeller/sironKYC/client/0001/data/input</param> -->
 			<interceptor-ref name="fileUpload">
 				<param name="allowedTypes">*/*</param>
-				<param name="maximumSize">4194304</param> <!-- 4MB -->
+				<param name="maximumSize">41669430040</param> <!-- 4MB -->
 			</interceptor-ref>
-
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">
+					application/vnd.ms-excel,
+					application/msexcel,
+					application/x-msexcel,
+					application/x-ms-excel,
+					application/x-excel,
+					application/x-dos_ms_excel,
+					application/xls,
+					application/x-xls,
+					application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+					application/vnd.openxmlformats-officedocument.wordprocessingml.document
+				</param>
+			</interceptor-ref>
 			<interceptor-ref name="staticParams" />
 			<interceptor-ref name="params" />
 			<interceptor-ref name="validation" />
 			<interceptor-ref name="workflow" />
+			<param name="allowedExtensions">xls,xlsx,csv</param>
+
 			<!-- <result name="">WEB-INF/pages/Dashboard.jsp</result> -->
 			<result name="success" type="chain">
 				<param name="actionName">emailer</param>
 				<param name="to">${to}</param>
 			</result>
+			<result name="input">WEB-INF/pages/Dashboard.jsp</result>
 
 			<result type="json"></result>
 		</action>
@@ -49,19 +87,54 @@
 			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
 			<result name="error">WEB-INF/pages/Login.jsp</result>
 		</action>
+
+		<action name="getDataChecker" class="org.o7planning.load_ds_wl.action.FileDataAction"
+			method="getDataChecker">
+			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
+			<result name="error">WEB-INF/pages/Login.jsp</result>
+		</action>
+
 		<action name="downloadFile"
 			class="org.o7planning.load_ds_wl.action.DownloadFileAction">
 			<result name="success" type="stream">
 				<param name="contentType">application/octet-stream</param>
 				<param name="inputName">fileInputStream</param>
 				                
-				<param name="contentDisposition">attachment;filename="download.xls"</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
 				<param name="bufferSize">1024</param>
 			</result>
+			<result name="error">WEB-INF/pages/Login.jsp</result>
+
 		</action>
 
-		<action name="confirm" class="org.o7planning.load_ds_wl.action.UpDownAction"
-			method="executeShFile">
+		<action name="downloadErrorFile"
+			class="org.o7planning.load_ds_wl.action.DownloadFileAction" method="downloadErrorFile">
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">fileInputStream</param>
+				                
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+			<result name="error">WEB-INF/pages/Login.jsp</result>
+
+		</action>
+
+		<action name="confirm"
+			class="org.o7planning.load_ds_wl.action.LoadWatchListAction" method="executeShFile">
+			<result name="success" type="redirectAction">
+				<param name="actionName">emailer</param>
+				<param name="to">${to}</param>
+				<param name="type">${type}</param>
+				<param name="fileResult">${fileResult}</param>
+				<param name="typeResult">${typeResult}</param>
+
+			</result>
+			<result name="error">WEB-INF/pages/Login.jsp</result>
+		</action>
+
+		<action name="sendToChecker" class="org.o7planning.load_ds_wl.action.JSONDataAction"
+			method="sendToChecker">
 			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
 			<result name="error">WEB-INF/pages/Login.jsp</result>
 
@@ -69,18 +142,25 @@
 
 		<action name="reject"
 			class="org.o7planning.load_ds_wl.action.DeleteFileAction" method="execute">
-			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
+			<result name="success" type="redirectAction">
+				<!-- /emailer.action -->
+				<param name="actionName">emailer</param>
+				<param name="to">${to}</param>
+
+			</result>
 			<result name="error">WEB-INF/pages/Login.jsp</result>
 
+
 		</action>
-		<action name="convertToCsv" class="org.o7planning.load_ds_wl.action.ExcelReading"
-			method="convert">
-			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
-		</action>
+
 
 		<action name="emailer" class="org.o7planning.load_ds_wl.action.EmailAction"
 			method="execute">
+			<interceptor-ref name="jsonValidationWorkflowStack" />
+
+			<result name="success">WEB-INF/pages/Dashboard.jsp</result>
 			<result type="json"></result>
+			<result name="error">"mail error"</result>
 
 		</action>
 	</package>

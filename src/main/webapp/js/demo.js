@@ -11,42 +11,37 @@
 
 /* global $ */
 
-$(function () {
-  'use strict';
- 
-  // Initialize the jQuery File Upload widget:
-  $('#fileupload').fileupload({
-    // Uncomment the following to send cross-domain cookies:
-    //xhrFields: {withCredentials: true},
-    url: '/load_ds_wl/uploadFile.action',
-    method: 'POST',
-    
-  });
+$(function() {
+	'use strict';
 
-  // Enable iframe cross-domain access via redirect option:
-  $('#fileupload').fileupload(
-    'option',
-    'redirect',
-    window.location.href.replace(/\/[^/]*$/, '/result.jsp?%s')
-  );
+	
+	$('#fileupload').fileupload({
+	    // Other options here
+	}).bind('fileuploadadd', function (e, data) {
+	    data.url = '/load_ds_wl/uploadFile.action?selected='
 
-  
-    // Load existing files:
-    $('#fileupload').addClass('fileupload-processing');
-    $.ajax({
-      // Uncomment the following to send cross-domain cookies:
-      //xhrFields: {withCredentials: true},
-      url: $('#fileupload').fileupload('option', 'url'),
-      dataType: 'json',
-      context: $('#fileupload')[0]
-    })
-      .always(function () {
-        $(this).removeClass('fileupload-processing');
-      })
-      .done(function (result) {
-        $(this)
-          .fileupload('option', 'done')
-          // eslint-disable-next-line new-cap
-          .call(this, $.Event('done'), { result: result });
-      });
+		
+	});
+
+	// Enable iframe cross-domain access via redirect option:
+	$('#fileupload').fileupload('option', 'redirect',
+			window.location.href.replace(/\/[^/]*$/, '/result.jsp?%s'));
+
+	// Load existing files:
+	$('#fileupload').addClass('fileupload-processing');
+	$.ajax({
+		// Uncomment the following to send cross-domain cookies:
+		// xhrFields: {withCredentials: true},
+		url : $('#fileupload').fileupload('option', 'url'),
+		dataType : 'json',
+		context : $('#fileupload')[0]
+	}).always(function() {
+		$(this).removeClass('fileupload-processing');
+	}).done(function(result) {
+		$(this).fileupload('option', 'done')
+		// eslint-disable-next-line new-cap
+		.call(this, $.Event('done'), {
+			result : result
+		});
+	});
 });
